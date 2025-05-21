@@ -1,0 +1,19 @@
+import { Controller, Get, Inject } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
+
+@Controller('users')
+export class UsersController {
+  constructor(@Inject('USER_SERVICE') private readonly userService: ClientKafka) {}
+
+  async onModuleInit() {
+    this.userService.subscribeToResponseOf('get_users');
+    await this.userService.connect();
+  }
+
+  @Get()
+  async getUsers() {
+    const response = await firstValueFrom(this.userService.send('get_users', {}));
+    return response;
+  }
+}
