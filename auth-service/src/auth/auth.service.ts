@@ -1,5 +1,6 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
+import { CreateUserDto } from './dto/auth.user.dto';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
@@ -9,7 +10,7 @@ export class AuthService implements OnModuleInit {
     this.kafkaClient.connect();
   }
 
-  async registerUser(userData: any) {
+  async registerUser(userData: CreateUserDto) {
     await this.kafkaClient.emit('user_created', userData);
     await this.kafkaClient.emit('log_created', {
       type: 'USER_REGISTERED',

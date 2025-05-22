@@ -10,12 +10,16 @@ import { AuthGatewayController } from './auth.controller';
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'api-gateway-auth',
+            clientId: 'api-gateway-auth-client',
             brokers: ['kafka:9092'],
+          },
+          consumer: {
+            groupId: 'api-gateway-auth-group',
           },
         },
       },
-    ]),
+    ])
+    
   ],
   controllers: [AuthGatewayController],
 })
