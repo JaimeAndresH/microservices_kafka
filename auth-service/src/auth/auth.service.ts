@@ -8,16 +8,17 @@ export class AuthService implements OnModuleInit {
 
   onModuleInit() {
     this.kafkaClient.subscribeToResponseOf('user_created');
+    this.kafkaClient.subscribeToResponseOf('log_created');
     this.kafkaClient.connect();
   }
 
   async registerUser(userData: CreateUserDto) {
-    await this.kafkaClient.emit('user_created', { value: userData});
-    await this.kafkaClient.emit('log_created', {value :{
+    await this.kafkaClient.emit('user_created', userData);
+    await this.kafkaClient.emit('log_created', {
       type: 'USER_REGISTERED',
       timestamp: new Date().toISOString(),
       payload: userData,
-    }});
+    });
     return { message: 'User registered successfully' };
   }
 }

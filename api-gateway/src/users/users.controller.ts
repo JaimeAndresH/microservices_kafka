@@ -13,7 +13,12 @@ export class UsersController implements OnModuleInit {
 
   @Get()
   async getUsers() {
-    const response = await firstValueFrom(this.userService.send('get_users', {}));
-    return response;
+    try {
+      const response = await firstValueFrom(this.userService.send('get_users', {}));
+      return response;
+    } catch (error) {
+      console.error('Error al obtener usuarios desde el user-service:', error);
+      throw new Error('Error al comunicarse con el user-service');
+    }
   }
 }
