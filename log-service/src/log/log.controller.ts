@@ -8,6 +8,10 @@ export class LogController {
 
   @EventPattern('log_created')
   handleLogEvent(@Payload() data: any) {
+    if (!data || !data.value) {
+      console.error('Log recibido sin datos:', data);
+      return;
+    }
     this.logService.handleLog(data.value);
   }
 }

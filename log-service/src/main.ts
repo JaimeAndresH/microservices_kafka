@@ -12,13 +12,13 @@ async function bootstrap() {
           brokers: ['kafka:9092'],
         },
         consumer: {
-          groupId: 'log-consumer', // debe ser único
+          groupId: 'log-consumer',
         },
       },
     },
   );
 
   await app.listen();
-  console.log('Log Service is listening...');
+  console.log('Log Service is listening for Kafka messages...');
 }
 bootstrap();

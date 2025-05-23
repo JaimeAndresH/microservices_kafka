@@ -1,23 +1,24 @@
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions> (
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
       transport: Transport.KAFKA,
-        options: {
-          client: {
-            brokers: ['kafka:9092'],
-          },
+      options: {
+        client: {
+          brokers: ['kafka:9092'],
+        },
         consumer: {
           groupId: 'user-consumer',
         },
       },
     },
   );
+
   await app.listen();
-  console.log('user service listening');
+  console.log('User Service is listening for Kafka messages...');
 }
 bootstrap();
